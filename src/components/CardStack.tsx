@@ -12,6 +12,8 @@ interface CardStackProps {
   cards: QueueCard[];
   onSkip: () => void;
   onSave: () => void | Promise<void>;
+  onSaveToLibrary: () => void | Promise<void>;
+  isCurrentCardSaved: boolean;
   onToggleForm: () => void;
   onSaved?: () => void;
   triggerRecord?: boolean;
@@ -48,7 +50,7 @@ function NextCardPreview({ card }: { card: QueueCard }) {
   );
 }
 
-export function CardStack({ cards, onSkip, onSave, onToggleForm, onSaved, triggerRecord }: CardStackProps) {
+export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCardSaved, onToggleForm, onSaved, triggerRecord }: CardStackProps) {
   const card = cards[0] ?? null;
   const nextCard = cards[1] ?? null;
   const { registerHandlers, setRecording } = useRecording();
@@ -58,6 +60,8 @@ export function CardStack({ cards, onSkip, onSave, onToggleForm, onSaved, trigge
   const [practiceScore, setPracticeScore] = useState<number | null>(null);
   const [practiceFeedback, setPracticeFeedback] = useState("");
   const [practiceError, setPracticeError] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -110,13 +114,27 @@ export function CardStack({ cards, onSkip, onSave, onToggleForm, onSaved, trigge
     handleTouchEnd();
   }, [handleTouchEnd]);
 
-  const handlePlay = useCallback(() => {
+  const handlePlayOrStop = useCallback(() => {
     if (!card) return;
+    if (isPlaying) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      audioRef.current = null;
+      setIsPlaying(false);
+      return;
+    }
     const url = card.displayForm === "casual" ? card.casualAudioUrl : card.politeAudioUrl;
     if (!url) return;
     const audio = new Audio(url);
-    audio.play().catch(() => {});
-  }, [card]);
+    audioRef.current = audio;
+    audio.addEventListener("ended", () => {
+      setIsPlaying(false);
+      audioRef.current = null;
+    });
+    audio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+  }, [card, isPlaying]);
 
   const startRecording = useCallback(async () => {
     if (!card) return;
@@ -324,17 +342,26 @@ export function CardStack({ cards, onSkip, onSave, onToggleForm, onSaved, trigge
           );
         })()}
 
-        {/* Action buttons: Play (left), Record/Stop (middle), Save (right) */}
+        {/* Action buttons: Play/Stop (left), Record/Stop (middle), Save (right) */}
         <div className="flex shrink-0 items-center justify-center gap-6">
           <button
             type="button"
-            onClick={handlePlay}
-            className="flex shrink-0 h-14 w-14 min-h-14 min-w-14 items-center justify-center rounded-full bg-white text-[#1da1f2] shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-transform focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2"
-            aria-label="Play sentence"
+            onClick={handlePlayOrStop}
+            className="relative flex shrink-0 h-14 w-14 min-h-14 min-w-14 items-center justify-center rounded-full bg-white text-[#1da1f2] shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-transform focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2"
+            aria-label={isPlaying ? "Stop playback" : "Play sentence"}
           >
-            <svg className="h-7 w-7 shrink-0 ml-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M8 5v14l11-7z" />
-            </svg>
+            {isPlaying && (
+              <span className="absolute inset-0 rounded-full bg-[#1da1f2]/15 animate-play-ripple pointer-events-none" aria-hidden />
+            )}
+            {isPlaying ? (
+              <svg className="relative h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <rect x="6" y="6" width="12" height="12" rx="2" />
+              </svg>
+            ) : (
+              <svg className="relative h-7 w-7 shrink-0 ml-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
           </button>
           <button
             type="button"
@@ -358,8 +385,8 @@ export function CardStack({ cards, onSkip, onSave, onToggleForm, onSaved, trigge
           </button>
           <button
             type="button"
-            onClick={() => Promise.resolve(onSave()).then(() => onSaved?.())}
-            className="flex shrink-0 h-14 w-14 min-h-14 min-w-14 items-center justify-center rounded-full bg-white text-[#00e676] shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-transform focus:outline-none focus:ring-2 focus:ring-[#00e676] focus:ring-offset-2"
+            onClick={() => Promise.resolve(onSaveToLibrary()).then(() => onSaved?.())}
+            className={`flex shrink-0 h-14 w-14 min-h-14 min-w-14 items-center justify-center rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-colors transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 ${isCurrentCardSaved ? "text-[#00e676] focus:ring-[#00e676]" : "text-[#9e9e9e] focus:ring-[#9e9e9e]"}`}
             aria-label="Save to library"
           >
             <svg className="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

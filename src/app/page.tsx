@@ -10,7 +10,7 @@ function StackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const triggerRecord = searchParams.get("record") === "1";
-  const { queue, loading, error, skip, save, toggleForm, refillNewSet } = useCardQueue();
+  const { queue, loading, error, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet } = useCardQueue();
   const currentCard = queue[0] ?? null;
   const stackCards = queue.slice(0, 3);
   const [toastVisible, setToastVisible] = useState(false);
@@ -92,6 +92,8 @@ function StackContent() {
           cards={stackCards}
           onSkip={skip}
           onSave={save}
+          onSaveToLibrary={saveToLibrary}
+          isCurrentCardSaved={isCurrentCardSaved}
           onToggleForm={toggleForm}
           onSaved={() => setToastVisible(true)}
           triggerRecord={triggerRecord}

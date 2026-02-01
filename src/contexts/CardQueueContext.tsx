@@ -111,6 +111,8 @@ type CardQueueValue = {
   error: string | null;
   skip: () => void;
   save: () => Promise<void>;
+  saveToLibrary: () => Promise<void>;
+  isCurrentCardSaved: boolean;
   toggleForm: () => void;
   refillNewSet: () => Promise<void>;
 };
@@ -122,6 +124,7 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
   const [queue, setQueue] = useState<QueueCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [savedCardIds, setSavedCardIds] = useState<Set<string>>(() => new Set());
   const refillingRef = useRef(false);
   const hasLoadedOnceRef = useRef(false);
 
@@ -251,6 +254,22 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
     });
   }, [queue]);
 
+  /** Save current card to library without advancing to the next card. */
+  const saveToLibrary = useCallback(async () => {
+    const top = queue[0];
+    if (!top) return;
+    await db.savedCards.add({
+      id: top.id,
+      sentence: top.sentence,
+      reading: top.reading,
+      casual: top.casual,
+      polite: top.polite,
+      createdAt: Date.now(),
+      savedAt: Date.now(),
+    });
+    setSavedCardIds((prev) => new Set(prev).add(top.id));
+  }, [queue]);
+
   const toggleForm = useCallback(() => {
     setQueue((prev) => {
       const copy = [...prev];
@@ -264,9 +283,11 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const isCurrentCardSaved = queue[0] != null && savedCardIds.has(queue[0].id);
+
   return (
     <CardQueueContext.Provider
-      value={{ queue, loading, error, skip, save, toggleForm, refillNewSet }}
+      value={{ queue, loading, error, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet }}
     >
       {children}
     </CardQueueContext.Provider>
