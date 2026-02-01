@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* Tinder-inspired palette: clean white, vibrant accents */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --tinder-red: #fe3c72;
+  --tinder-pink: #ff6b9d;
+  --tinder-green: #00e676;
+  --tinder-blue: #1da1f2;
+  --tinder-gray: #424242;
+  --tinder-gray-light: #9e9e9e;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --button-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  --spacing-card: 1.5rem;
+  --spacing-section: 1.25rem;
+  --radius-card: 1rem;
+  --radius-button: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Card pop-in when it appears */
+@keyframes card-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.card-pop-in {
+  animation: card-pop-in 0.35s ease-out forwards;
+}
+
+/* Toast: slide up when shown */
+@keyframes toast-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-slide-up {
+  animation: toast-slide-up 0.3s ease-out forwards;
+}
+
+/* Settings bottom sheet: slide in/out */
+@keyframes settings-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes settings-sheet-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes settings-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes settings-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.settings-sheet-panel {
+  transform: translateY(100%);
+}
+.settings-sheet-panel.settings-sheet-animate-in {
+  animation: settings-sheet-in 0.3s ease-out forwards;
+}
+.settings-sheet-panel.settings-sheet-animate-out {
+  animation: settings-sheet-out 0.3s ease-out both;
+}
+
+.settings-backdrop {
+  opacity: 0;
+}
+.settings-backdrop.settings-backdrop-animate-in {
+  animation: settings-backdrop-in 0.3s ease-out forwards;
+}
+.settings-backdrop.settings-backdrop-animate-out {
+  animation: settings-backdrop-out 0.3s ease-out both;
+}
+
+/* Loading screen + home: gradient moves slightly */
+@keyframes loading-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.bg-loading-gradient {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e72 25%, #f77062 50%, #e94057 75%, #c13584 100%);
+  background-size: 200% 200%;
+  animation: loading-gradient-shift 8s ease-in-out infinite;
+}
+
+/* Furigana (ruby) above kanji */
+ruby {
+  ruby-position: over;
+}
+ruby rt {
+  font-size: 0.5em;
+  opacity: 0.85;
+}
