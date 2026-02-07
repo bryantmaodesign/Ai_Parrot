@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Japanese Shadowing",
-    short_name: "Shadowing",
+    name: "ParrotAi",
+    short_name: "ParrotAi",
     description: "Shadow Japanese sentences with AI-generated cards and practice feedback.",
     start_url: "/",
     display: "standalone",

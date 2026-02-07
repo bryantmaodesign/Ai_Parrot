@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_NAME = "Japanese Shadowing";
+const APP_NAME = "ParrotAi";
 const APP_DESCRIPTION = "Shadow Japanese sentences with AI-generated cards and practice feedback.";
 // Set your production URL here or via NEXT_PUBLIC_APP_URL environment variable
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://your-domain.com";
