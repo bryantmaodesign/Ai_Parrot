@@ -10,7 +10,8 @@ function StackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const triggerRecord = searchParams.get("record") === "1";
-  const { queue, loading, error, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet } = useCardQueue();
+  const cardIdParam = searchParams.get("cardId");
+  const { queue, loading, error, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet, loadCardFromLibrary } = useCardQueue();
   const currentCard = queue[0] ?? null;
   const stackCards = queue.slice(0, 3);
   const [toastVisible, setToastVisible] = useState(false);
@@ -21,6 +22,14 @@ function StackContent() {
       router.replace("/", { scroll: false });
     }
   }, [triggerRecord, router]);
+
+  useEffect(() => {
+    if (cardIdParam) {
+      void loadCardFromLibrary(cardIdParam);
+      // Clear the cardId from URL after loading
+      router.replace("/", { scroll: false });
+    }
+  }, [cardIdParam, loadCardFromLibrary, router]);
 
   useEffect(() => {
     if (!toastVisible) return;

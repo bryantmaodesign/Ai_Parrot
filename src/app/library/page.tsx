@@ -1,24 +1,11 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { db, type SavedCard, type VocabularyItem } from "@/lib/db";
 import { useSettings } from "@/contexts/SettingsContext";
-
-async function playTTS(text: string, speed: number = 1.0): Promise<void> {
-  const res = await fetch("/api/tts", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, speed }),
-  });
-  if (!res.ok) return;
-  const blob = await res.blob();
-  const url = URL.createObjectURL(blob);
-  const audio = new Audio(url);
-  audio.onended = () => URL.revokeObjectURL(url);
-  await audio.play().catch(() => URL.revokeObjectURL(url));
-}
 
 function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -28,6 +15,7 @@ type LibraryTab = "saved" | "vocabulary";
 
 function LibraryContent() {
   const { settings } = useSettings();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [tab, setTab] = useState<LibraryTab>(
@@ -52,22 +40,22 @@ function LibraryContent() {
     void loadCards();
   }, [loadCards]);
 
-  const handlePlay = useCallback(async (card: SavedCard) => {
-    setPlayingId(card.id);
-    try {
-      await playTTS(card.polite, settings.speed);
-    } finally {
-      setPlayingId(null);
-    }
-  }, [settings.speed]);
+
+  const handleCardClick = useCallback((cardId: string) => {
+    router.push(`/?cardId=${encodeURIComponent(cardId)}`);
+  }, [router]);
 
   // --- Vocabulary state ---
   const [items, setItems] = useState<VocabularyItem[]>([]);
   const [word, setWord] = useState("");
-  const [reading, setReading] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editWord, setEditWord] = useState("");
   const [editReading, setEditReading] = useState("");
+  
+  // --- Camera/OCR state ---
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [ocrError, setOcrError] = useState<string | null>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const loadItems = useCallback(async () => {
     const list = await db.vocabulary.orderBy("createdAt").reverse().toArray();
@@ -85,11 +73,10 @@ function LibraryContent() {
     await db.vocabulary.add({
       id: generateId(),
       word: trimmed,
-      reading: reading.trim() || undefined,
+      reading: undefined,
       createdAt: Date.now(),
     });
     setWord("");
-    setReading("");
     void loadItems();
   };
 
@@ -126,8 +113,51 @@ function LibraryContent() {
     setEditReading("");
   };
 
+  // --- Camera/OCR handlers ---
+  const handleCameraClick = useCallback(() => {
+    imageInputRef.current?.click();
+  }, []);
+
+  const handleImageCapture = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset input so same file can be selected again
+    if (imageInputRef.current) imageInputRef.current.value = "";
+
+    setIsProcessingImage(true);
+    setOcrError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await fetch("/api/ocr-translate", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "OCR/Translation failed");
+      }
+
+      const data = await res.json();
+      if (data.text && data.text.trim()) {
+        setWord(data.text.trim());
+      } else {
+        setOcrError("No text found in image.");
+      }
+    } catch (e) {
+      console.error("OCR/Translation error:", e);
+      setOcrError(e instanceof Error ? e.message : "Failed to process image. Please try again.");
+    } finally {
+      setIsProcessingImage(false);
+    }
+  }, []);
+
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+    <div className="bg-white flex min-h-0 flex-1 flex-col overflow-hidden">
       <div className="flex-1 overflow-y-auto p-6 max-w-lg mx-auto">
       <h1 className="text-xl font-bold text-[#1a1a1a]">Library</h1>
 
@@ -167,43 +197,46 @@ function LibraryContent() {
       {tab === "saved" && (
         <>
           <p className="text-sm text-[#424242] mb-6">
-            Your saved cards. Tap Play to hear, or Practice to record and get feedback.
+            Your saved cards. Tap a card to view it on the home page.
           </p>
           {cards.length === 0 ? (
             <p className="text-[#9e9e9e] text-sm">
               No saved cards yet. Swipe right on a card on the home stack to save it.
             </p>
           ) : (
-            <ul className="space-y-4">
+            <ul className="grid grid-cols-2 gap-4">
               {cards.map((card) => (
                 <li
                   key={card.id}
-                  className="rounded-2xl bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
+                  onClick={() => handleCardClick(card.id)}
+                  className="relative rounded-2xl bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] cursor-pointer hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] transition-shadow"
                 >
-                  <p className="text-lg font-semibold text-[#1a1a1a] mb-2" lang="ja">
-                    {card.polite}
+                  {card.level && (
+                    <span className="inline-block mb-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-[#e8f4fd] text-[#1da1f2]">
+                      {card.level}
+                    </span>
+                  )}
+                  <p className="text-base font-semibold text-[#1a1a1a] mb-1 [ruby-align:center] line-clamp-3" lang="ja">
+                    {card.furiganaPolite && card.furiganaPolite.length > 0 ? (
+                      card.furiganaPolite.map((seg, i) =>
+                        seg.reading ? (
+                          <ruby key={i}>
+                            {seg.text}
+                            <rt className="text-xs text-[#9e9e9e]">{seg.reading}</rt>
+                          </ruby>
+                        ) : (
+                          <span key={i}>{seg.text}</span>
+                        )
+                      )
+                    ) : (
+                      card.polite
+                    )}
                   </p>
                   {card.reading && (
-                    <p className="text-sm text-[#9e9e9e] mb-3" lang="ja">
+                    <p className="text-xs text-[#9e9e9e] line-clamp-1" lang="ja">
                       {card.reading}
                     </p>
                   )}
-                  <div className="flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() => handlePlay(card)}
-                      disabled={playingId === card.id}
-                      className="shrink-0 min-h-[2.75rem] inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-[#1da1f2] text-white text-sm font-semibold hover:bg-[#1a91e2] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2 shadow-[0_2px_8px_rgba(29,161,242,0.3)]"
-                    >
-                      {playingId === card.id ? "Playing…" : "Play"}
-                    </button>
-                    <Link
-                      href={`/practice?cardId=${encodeURIComponent(card.id)}`}
-                      className="shrink-0 min-h-[2.75rem] inline-flex items-center justify-center px-4 py-2.5 rounded-full border-2 border-[#e0e0e0] text-[#424242] text-sm font-semibold hover:bg-[#f5f5f5] focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2"
-                    >
-                      Practice
-                    </Link>
-                  </div>
                 </li>
               ))}
             </ul>
@@ -221,27 +254,77 @@ function LibraryContent() {
             <label htmlFor="word" className="sr-only">
               Word
             </label>
-            <input
-              id="word"
-              type="text"
-              value={word}
-              onChange={(e) => setWord(e.target.value)}
-              placeholder="Word (e.g. 今日)"
-              className="w-full px-4 py-3 rounded-xl border-2 border-[#e0e0e0] bg-white text-[#1a1a1a] placeholder-[#9e9e9e] focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:border-transparent"
-              autoComplete="off"
-            />
-            <label htmlFor="reading" className="sr-only">
-              Reading (optional)
-            </label>
-            <input
-              id="reading"
-              type="text"
-              value={reading}
-              onChange={(e) => setReading(e.target.value)}
-              placeholder="Reading (e.g. きょう) — optional"
-              className="w-full px-4 py-3 rounded-xl border-2 border-[#e0e0e0] bg-white text-[#1a1a1a] placeholder-[#9e9e9e] focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:border-transparent"
-              autoComplete="off"
-            />
+            <div className="relative">
+              <input
+                id="word"
+                type="text"
+                value={word}
+                onChange={(e) => setWord(e.target.value)}
+                placeholder="Word (e.g. 今日)"
+                className="w-full px-4 py-3 pr-12 rounded-xl border-2 border-[#e0e0e0] bg-white text-[#1a1a1a] placeholder-[#9e9e9e] focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:border-transparent"
+                autoComplete="off"
+              />
+              <button
+                type="button"
+                onClick={handleCameraClick}
+                disabled={isProcessingImage}
+                className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#1da1f2] ${
+                  isProcessingImage
+                    ? "bg-[#e0e0e0] text-[#9e9e9e] cursor-not-allowed"
+                    : "bg-[#f5f5f5] text-[#424242] hover:bg-[#e0e0e0]"
+                }`}
+                aria-label="Take photo or upload image"
+              >
+                {isProcessingImage ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="animate-spin"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                    <circle cx="12" cy="13" r="3" />
+                  </svg>
+                )}
+              </button>
+              {/* Hidden file input for camera/file selection */}
+              <input
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleImageCapture}
+                className="hidden"
+                aria-hidden="true"
+              />
+            </div>
+            {ocrError && (
+              <p className="text-sm text-[#fe3c72] -mt-2">{ocrError}</p>
+            )}
+            {isProcessingImage && (
+              <p className="text-sm text-[#1da1f2] -mt-2">Processing image...</p>
+            )}
             <button
               type="submit"
               className="min-h-[3rem] inline-flex items-center justify-center px-4 py-3 rounded-full bg-[#00e676] text-white font-semibold hover:bg-[#00d66b] focus:outline-none focus:ring-2 focus:ring-[#00e676] focus:ring-offset-2 shadow-[0_2px_12px_rgba(0,230,118,0.35)]"

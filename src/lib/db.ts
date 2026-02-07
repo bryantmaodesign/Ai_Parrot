@@ -17,6 +17,9 @@ export interface CardData {
   politeAudioUrl?: string;
   vocabularyIds?: string[];
   createdAt: number;
+  furiganaPolite?: FuriganaSegment[];
+  furiganaCasual?: FuriganaSegment[];
+  level?: "N5" | "N4" | "N3" | "N2" | "N1";
 }
 
 export interface SavedCard extends CardData {
@@ -31,10 +34,30 @@ export interface PracticeAttempt {
   createdAt: number;
 }
 
+export interface FuriganaSegment {
+  text: string;
+  reading?: string;
+}
+
+export interface CachedSentence {
+  id: string;
+  level: "N5" | "N4" | "N3" | "N2" | "N1";
+  sentence: string;
+  reading?: string;
+  casual?: string;
+  polite?: string;
+  translation?: string;
+  furiganaPolite?: FuriganaSegment[];
+  furiganaCasual?: FuriganaSegment[];
+  createdAt: number;
+  usedAt?: number; // Track last usage for LRU eviction
+}
+
 export class ShadowingDB extends Dexie {
   vocabulary!: Table<VocabularyItem, string>;
   savedCards!: Table<SavedCard, string>;
   practiceAttempts!: Table<PracticeAttempt, string>;
+  sentenceCache!: Table<CachedSentence, string>;
 
   constructor() {
     super("ShadowingDB");
@@ -42,6 +65,12 @@ export class ShadowingDB extends Dexie {
       vocabulary: "id, word, createdAt",
       savedCards: "id, savedAt",
       practiceAttempts: "id, cardId, createdAt",
+    });
+    this.version(2).stores({
+      vocabulary: "id, word, createdAt",
+      savedCards: "id, savedAt",
+      practiceAttempts: "id, cardId, createdAt",
+      sentenceCache: "id, level, createdAt, usedAt",
     });
   }
 }

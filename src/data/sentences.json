@@ -1,0 +1,1198 @@
+{
+  "N5": [
+    {
+      "sentence": "私は学生です。",
+      "casual": "私は学生だ。",
+      "polite": "私は学生です。",
+      "translation": "I am a student.",
+      "furiganaPolite": [
+        { "text": "私", "reading": "わたし" },
+        { "text": "は" },
+        { "text": "学生", "reading": "がくせい" },
+        { "text": "です。" }
+      ],
+      "furiganaCasual": [
+        { "text": "私", "reading": "わたし" },
+        { "text": "は" },
+        { "text": "学生", "reading": "がくせい" },
+        { "text": "だ。" }
+      ]
+    },
+    {
+      "sentence": "今日はいい天気です。",
+      "casual": "今日はいい天気だ。",
+      "polite": "今日はいい天気です。",
+      "translation": "Today is nice weather.",
+      "furiganaPolite": [
+        { "text": "今日", "reading": "きょう" },
+        { "text": "は" },
+        { "text": "いい" },
+        { "text": "天気", "reading": "てんき" },
+        { "text": "です。" }
+      ],
+      "furiganaCasual": [
+        { "text": "今日", "reading": "きょう" },
+        { "text": "は" },
+        { "text": "いい" },
+        { "text": "天気", "reading": "てんき" },
+        { "text": "だ。" }
+      ]
+    },
+    {
+      "sentence": "コーヒーを飲みます。",
+      "casual": "コーヒーを飲む。",
+      "polite": "コーヒーを飲みます。",
+      "translation": "I drink coffee.",
+      "furiganaPolite": [
+        { "text": "コーヒー" },
+        { "text": "を" },
+        { "text": "飲み", "reading": "の" },
+        { "text": "ます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "コーヒー" },
+        { "text": "を" },
+        { "text": "飲む", "reading": "の" }
+      ]
+    },
+    {
+      "sentence": "本を読みます。",
+      "casual": "本を読む。",
+      "polite": "本を読みます。",
+      "translation": "I read a book.",
+      "furiganaPolite": [
+        { "text": "本", "reading": "ほん" },
+        { "text": "を" },
+        { "text": "読み", "reading": "よ" },
+        { "text": "ます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "本", "reading": "ほん" },
+        { "text": "を" },
+        { "text": "読む", "reading": "よ" }
+      ]
+    },
+    {
+      "sentence": "友達と映画を見ます。",
+      "casual": "友達と映画を見る。",
+      "polite": "友達と映画を見ます。",
+      "translation": "I watch a movie with my friend.",
+      "furiganaPolite": [
+        { "text": "友達", "reading": "ともだち" },
+        { "text": "と" },
+        { "text": "映画", "reading": "えいが" },
+        { "text": "を" },
+        { "text": "見", "reading": "み" },
+        { "text": "ます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "友達", "reading": "ともだち" },
+        { "text": "と" },
+        { "text": "映画", "reading": "えいが" },
+        { "text": "を" },
+        { "text": "見る", "reading": "み" }
+      ]
+    },
+    {
+      "sentence": "毎日日本語を勉強します。",
+      "casual": "毎日日本語を勉強する。",
+      "polite": "毎日日本語を勉強します。",
+      "translation": "I study Japanese every day.",
+      "furiganaPolite": [
+        { "text": "毎日", "reading": "まいにち" },
+        { "text": "日本語", "reading": "にほんご" },
+        { "text": "を" },
+        { "text": "勉強", "reading": "べんきょう" },
+        { "text": "します。" }
+      ],
+      "furiganaCasual": [
+        { "text": "毎日", "reading": "まいにち" },
+        { "text": "日本語", "reading": "にほんご" },
+        { "text": "を" },
+        { "text": "勉強", "reading": "べんきょう" },
+        { "text": "する。" }
+      ]
+    },
+    {
+      "sentence": "駅まで歩きます。",
+      "casual": "駅まで歩く。",
+      "polite": "駅まで歩きます。",
+      "translation": "I walk to the station.",
+      "furiganaPolite": [
+        { "text": "駅", "reading": "えき" },
+        { "text": "まで" },
+        { "text": "歩き", "reading": "ある" },
+        { "text": "ます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "駅", "reading": "えき" },
+        { "text": "まで" },
+        { "text": "歩く", "reading": "ある" }
+      ]
+    },
+    {
+      "sentence": "お腹が空きました。",
+      "casual": "お腹が空いた。",
+      "polite": "お腹が空きました。",
+      "translation": "I'm hungry.",
+      "furiganaPolite": [
+        { "text": "お腹", "reading": "おなか" },
+        { "text": "が" },
+        { "text": "空き", "reading": "す" },
+        { "text": "ました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "お腹", "reading": "おなか" },
+        { "text": "が" },
+        { "text": "空いた", "reading": "す" }
+      ]
+    },
+    {
+      "sentence": "図書館で勉強します。",
+      "casual": "図書館で勉強する。",
+      "polite": "図書館で勉強します。",
+      "translation": "I study at the library.",
+      "furiganaPolite": [
+        { "text": "図書館", "reading": "としょかん" },
+        { "text": "で" },
+        { "text": "勉強", "reading": "べんきょう" },
+        { "text": "します。" }
+      ],
+      "furiganaCasual": [
+        { "text": "図書館", "reading": "としょかん" },
+        { "text": "で" },
+        { "text": "勉強", "reading": "べんきょう" },
+        { "text": "する。" }
+      ]
+    },
+    {
+      "sentence": "明日は休みです。",
+      "casual": "明日は休みだ。",
+      "polite": "明日は休みです。",
+      "translation": "Tomorrow is a day off.",
+      "furiganaPolite": [
+        { "text": "明日", "reading": "あした" },
+        { "text": "は" },
+        { "text": "休み", "reading": "やす" },
+        { "text": "です。" }
+      ],
+      "furiganaCasual": [
+        { "text": "明日", "reading": "あした" },
+        { "text": "は" },
+        { "text": "休み", "reading": "やす" },
+        { "text": "だ。" }
+      ]
+    }
+  ],
+  "N4": [
+    {
+      "sentence": "この本は面白そうです。",
+      "casual": "この本は面白そうだ。",
+      "polite": "この本は面白そうです。",
+      "translation": "This book looks interesting.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "本", "reading": "ほん" },
+        { "text": "は" },
+        { "text": "面白", "reading": "おもしろ" },
+        { "text": "そうです。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "本", "reading": "ほん" },
+        { "text": "は" },
+        { "text": "面白", "reading": "おもしろ" },
+        { "text": "そうだ。" }
+      ]
+    },
+    {
+      "sentence": "電車に乗りました。",
+      "casual": "電車に乗った。",
+      "polite": "電車に乗りました。",
+      "translation": "I got on the train.",
+      "furiganaPolite": [
+        { "text": "電車", "reading": "でんしゃ" },
+        { "text": "に" },
+        { "text": "乗り", "reading": "の" },
+        { "text": "ました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "電車", "reading": "でんしゃ" },
+        { "text": "に" },
+        { "text": "乗った", "reading": "の" }
+      ]
+    },
+    {
+      "sentence": "音楽を聞きながら勉強します。",
+      "casual": "音楽を聞きながら勉強する。",
+      "polite": "音楽を聞きながら勉強します。",
+      "translation": "I study while listening to music.",
+      "furiganaPolite": [
+        { "text": "音楽", "reading": "おんがく" },
+        { "text": "を" },
+        { "text": "聞き", "reading": "き" },
+        { "text": "ながら" },
+        { "text": "勉強", "reading": "べんきょう" },
+        { "text": "します。" }
+      ],
+      "furiganaCasual": [
+        { "text": "音楽", "reading": "おんがく" },
+        { "text": "を" },
+        { "text": "聞き", "reading": "き" },
+        { "text": "ながら" },
+        { "text": "勉強", "reading": "べんきょう" },
+        { "text": "する。" }
+      ]
+    },
+    {
+      "sentence": "この料理を作ってみます。",
+      "casual": "この料理を作ってみる。",
+      "polite": "この料理を作ってみます。",
+      "translation": "I'll try making this dish.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "料理", "reading": "りょうり" },
+        { "text": "を" },
+        { "text": "作っ", "reading": "つく" },
+        { "text": "てみます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "料理", "reading": "りょうり" },
+        { "text": "を" },
+        { "text": "作っ", "reading": "つく" },
+        { "text": "てみる。" }
+      ]
+    },
+    {
+      "sentence": "雨が降ったら、家にいます。",
+      "casual": "雨が降ったら、家にいる。",
+      "polite": "雨が降ったら、家にいます。",
+      "translation": "If it rains, I'll stay home.",
+      "furiganaPolite": [
+        { "text": "雨", "reading": "あめ" },
+        { "text": "が" },
+        { "text": "降っ", "reading": "ふ" },
+        { "text": "たら、" },
+        { "text": "家", "reading": "いえ" },
+        { "text": "にいます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "雨", "reading": "あめ" },
+        { "text": "が" },
+        { "text": "降っ", "reading": "ふ" },
+        { "text": "たら、" },
+        { "text": "家", "reading": "いえ" },
+        { "text": "にいる。" }
+      ]
+    },
+    {
+      "sentence": "忙しくても、運動します。",
+      "casual": "忙しくても、運動する。",
+      "polite": "忙しくても、運動します。",
+      "translation": "Even if I'm busy, I exercise.",
+      "furiganaPolite": [
+        { "text": "忙しく", "reading": "いそが" },
+        { "text": "ても、" },
+        { "text": "運動", "reading": "うんどう" },
+        { "text": "します。" }
+      ],
+      "furiganaCasual": [
+        { "text": "忙しく", "reading": "いそが" },
+        { "text": "ても、" },
+        { "text": "運動", "reading": "うんどう" },
+        { "text": "する。" }
+      ]
+    },
+    {
+      "sentence": "新しいカメラを買いたいです。",
+      "casual": "新しいカメラを買いたい。",
+      "polite": "新しいカメラを買いたいです。",
+      "translation": "I want to buy a new camera.",
+      "furiganaPolite": [
+        { "text": "新しい", "reading": "あたら" },
+        { "text": "カメラ" },
+        { "text": "を" },
+        { "text": "買い", "reading": "か" },
+        { "text": "たいです。" }
+      ],
+      "furiganaCasual": [
+        { "text": "新しい", "reading": "あたら" },
+        { "text": "カメラ" },
+        { "text": "を" },
+        { "text": "買い", "reading": "か" },
+        { "text": "たい。" }
+      ]
+    },
+    {
+      "sentence": "この店のパンは美味しそうです。",
+      "casual": "この店のパンは美味しそうだ。",
+      "polite": "この店のパンは美味しそうです。",
+      "translation": "The bread at this shop looks delicious.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "店", "reading": "みせ" },
+        { "text": "の" },
+        { "text": "パン" },
+        { "text": "は" },
+        { "text": "美味し", "reading": "おい" },
+        { "text": "そうです。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "店", "reading": "みせ" },
+        { "text": "の" },
+        { "text": "パン" },
+        { "text": "は" },
+        { "text": "美味し", "reading": "おい" },
+        { "text": "そうだ。" }
+      ]
+    },
+    {
+      "sentence": "宿題をしてから、遊びます。",
+      "casual": "宿題をしてから、遊ぶ。",
+      "polite": "宿題をしてから、遊びます。",
+      "translation": "After doing homework, I'll play.",
+      "furiganaPolite": [
+        { "text": "宿題", "reading": "しゅくだい" },
+        { "text": "を" },
+        { "text": "してから、" },
+        { "text": "遊び", "reading": "あそ" },
+        { "text": "ます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "宿題", "reading": "しゅくだい" },
+        { "text": "を" },
+        { "text": "してから、" },
+        { "text": "遊ぶ", "reading": "あそ" }
+      ]
+    },
+    {
+      "sentence": "日本語が話せるようになりました。",
+      "casual": "日本語が話せるようになった。",
+      "polite": "日本語が話せるようになりました。",
+      "translation": "I've become able to speak Japanese.",
+      "furiganaPolite": [
+        { "text": "日本語", "reading": "にほんご" },
+        { "text": "が" },
+        { "text": "話せる", "reading": "はな" },
+        { "text": "ようになりました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "日本語", "reading": "にほんご" },
+        { "text": "が" },
+        { "text": "話せる", "reading": "はな" },
+        { "text": "ようになった。" }
+      ]
+    }
+  ],
+  "N3": [
+    {
+      "sentence": "彼は日本語が上手になりました。",
+      "casual": "彼は日本語が上手になった。",
+      "polite": "彼は日本語が上手になりました。",
+      "translation": "He became good at Japanese.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "は" },
+        { "text": "日本語", "reading": "にほんご" },
+        { "text": "が" },
+        { "text": "上手", "reading": "じょうず" },
+        { "text": "になりました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "は" },
+        { "text": "日本語", "reading": "にほんご" },
+        { "text": "が" },
+        { "text": "上手", "reading": "じょうず" },
+        { "text": "になった。" }
+      ]
+    },
+    {
+      "sentence": "最近、本ばかり読んでいます。",
+      "casual": "最近、本ばかり読んでいる。",
+      "polite": "最近、本ばかり読んでいます。",
+      "translation": "Lately, I've been reading only books.",
+      "furiganaPolite": [
+        { "text": "最近", "reading": "さいきん" },
+        { "text": "、" },
+        { "text": "本", "reading": "ほん" },
+        { "text": "ばかり" },
+        { "text": "読ん", "reading": "よ" },
+        { "text": "でいます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "最近", "reading": "さいきん" },
+        { "text": "、" },
+        { "text": "本", "reading": "ほん" },
+        { "text": "ばかり" },
+        { "text": "読ん", "reading": "よ" },
+        { "text": "でいる。" }
+      ]
+    },
+    {
+      "sentence": "明日は雨が降るかもしれません。",
+      "casual": "明日は雨が降るかもしれない。",
+      "polite": "明日は雨が降るかもしれません。",
+      "translation": "It might rain tomorrow.",
+      "furiganaPolite": [
+        { "text": "明日", "reading": "あした" },
+        { "text": "は" },
+        { "text": "雨", "reading": "あめ" },
+        { "text": "が" },
+        { "text": "降る", "reading": "ふ" },
+        { "text": "かもしれません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "明日", "reading": "あした" },
+        { "text": "は" },
+        { "text": "雨", "reading": "あめ" },
+        { "text": "が" },
+        { "text": "降る", "reading": "ふ" },
+        { "text": "かもしれない。" }
+      ]
+    },
+    {
+      "sentence": "この問題は難しすぎます。",
+      "casual": "この問題は難しすぎる。",
+      "polite": "この問題は難しすぎます。",
+      "translation": "This problem is too difficult.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "は" },
+        { "text": "難し", "reading": "むずか" },
+        { "text": "すぎます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "は" },
+        { "text": "難し", "reading": "むずか" },
+        { "text": "すぎる。" }
+      ]
+    },
+    {
+      "sentence": "約束の時間に遅れるはずです。",
+      "casual": "約束の時間に遅れるはずだ。",
+      "polite": "約束の時間に遅れるはずです。",
+      "translation": "I'm supposed to be late for the appointment.",
+      "furiganaPolite": [
+        { "text": "約束", "reading": "やくそく" },
+        { "text": "の" },
+        { "text": "時間", "reading": "じかん" },
+        { "text": "に" },
+        { "text": "遅れる", "reading": "おく" },
+        { "text": "はずです。" }
+      ],
+      "furiganaCasual": [
+        { "text": "約束", "reading": "やくそく" },
+        { "text": "の" },
+        { "text": "時間", "reading": "じかん" },
+        { "text": "に" },
+        { "text": "遅れる", "reading": "おく" },
+        { "text": "はずだ。" }
+      ]
+    },
+    {
+      "sentence": "早く起きるようにしています。",
+      "casual": "早く起きるようにしている。",
+      "polite": "早く起きるようにしています。",
+      "translation": "I'm trying to wake up early.",
+      "furiganaPolite": [
+        { "text": "早く", "reading": "はや" },
+        { "text": "起きる", "reading": "お" },
+        { "text": "ようにしています。" }
+      ],
+      "furiganaCasual": [
+        { "text": "早く", "reading": "はや" },
+        { "text": "起きる", "reading": "お" },
+        { "text": "ようにしている。" }
+      ]
+    },
+    {
+      "sentence": "この映画は見る価値があります。",
+      "casual": "この映画は見る価値がある。",
+      "polite": "この映画は見る価値があります。",
+      "translation": "This movie is worth watching.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "映画", "reading": "えいが" },
+        { "text": "は" },
+        { "text": "見る", "reading": "み" },
+        { "text": "価値", "reading": "かち" },
+        { "text": "があります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "映画", "reading": "えいが" },
+        { "text": "は" },
+        { "text": "見る", "reading": "み" },
+        { "text": "価値", "reading": "かち" },
+        { "text": "がある。" }
+      ]
+    },
+    {
+      "sentence": "彼女に会うたびに、嬉しくなります。",
+      "casual": "彼女に会うたびに、嬉しくなる。",
+      "polite": "彼女に会うたびに、嬉しくなります。",
+      "translation": "Every time I meet her, I become happy.",
+      "furiganaPolite": [
+        { "text": "彼女", "reading": "かのじょ" },
+        { "text": "に" },
+        { "text": "会う", "reading": "あ" },
+        { "text": "たびに、" },
+        { "text": "嬉しく", "reading": "うれ" },
+        { "text": "なります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼女", "reading": "かのじょ" },
+        { "text": "に" },
+        { "text": "会う", "reading": "あ" },
+        { "text": "たびに、" },
+        { "text": "嬉しく", "reading": "うれ" },
+        { "text": "なる。" }
+      ]
+    },
+    {
+      "sentence": "この計画について、考え直す必要があります。",
+      "casual": "この計画について、考え直す必要がある。",
+      "polite": "この計画について、考え直す必要があります。",
+      "translation": "I need to reconsider this plan.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "計画", "reading": "けいかく" },
+        { "text": "について、" },
+        { "text": "考え直す", "reading": "かんがえなお" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "があります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "計画", "reading": "けいかく" },
+        { "text": "について、" },
+        { "text": "考え直す", "reading": "かんがえなお" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "がある。" }
+      ]
+    },
+    {
+      "sentence": "彼の説明を聞いて、理解できました。",
+      "casual": "彼の説明を聞いて、理解できた。",
+      "polite": "彼の説明を聞いて、理解できました。",
+      "translation": "After hearing his explanation, I understood.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "説明", "reading": "せつめい" },
+        { "text": "を" },
+        { "text": "聞い", "reading": "き" },
+        { "text": "て、" },
+        { "text": "理解", "reading": "りかい" },
+        { "text": "できました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "説明", "reading": "せつめい" },
+        { "text": "を" },
+        { "text": "聞い", "reading": "き" },
+        { "text": "て、" },
+        { "text": "理解", "reading": "りかい" },
+        { "text": "できた。" }
+      ]
+    }
+  ],
+  "N2": [
+    {
+      "sentence": "努力したものの、結果は出ませんでした。",
+      "casual": "努力したものの、結果は出なかった。",
+      "polite": "努力したものの、結果は出ませんでした。",
+      "translation": "Although I made an effort, I didn't get results.",
+      "furiganaPolite": [
+        { "text": "努力", "reading": "どりょく" },
+        { "text": "したものの、" },
+        { "text": "結果", "reading": "けっか" },
+        { "text": "は" },
+        { "text": "出", "reading": "で" },
+        { "text": "ませんでした。" }
+      ],
+      "furiganaCasual": [
+        { "text": "努力", "reading": "どりょく" },
+        { "text": "したものの、" },
+        { "text": "結果", "reading": "けっか" },
+        { "text": "は" },
+        { "text": "出", "reading": "で" },
+        { "text": "なかった。" }
+      ]
+    },
+    {
+      "sentence": "この問題は複雑すぎて、簡単には解決できません。",
+      "casual": "この問題は複雑すぎて、簡単には解決できない。",
+      "polite": "この問題は複雑すぎて、簡単には解決できません。",
+      "translation": "This problem is too complex to solve easily.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "は" },
+        { "text": "複雑", "reading": "ふくざつ" },
+        { "text": "すぎて、" },
+        { "text": "簡単", "reading": "かんたん" },
+        { "text": "には" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "できません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "は" },
+        { "text": "複雑", "reading": "ふくざつ" },
+        { "text": "すぎて、" },
+        { "text": "簡単", "reading": "かんたん" },
+        { "text": "には" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "できない。" }
+      ]
+    },
+    {
+      "sentence": "彼の話を聞くにつれて、興味が湧いてきました。",
+      "casual": "彼の話を聞くにつれて、興味が湧いてきた。",
+      "polite": "彼の話を聞くにつれて、興味が湧いてきました。",
+      "translation": "As I listened to his story, my interest grew.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "話", "reading": "はなし" },
+        { "text": "を" },
+        { "text": "聞く", "reading": "き" },
+        { "text": "につれて、" },
+        { "text": "興味", "reading": "きょうみ" },
+        { "text": "が" },
+        { "text": "湧い", "reading": "わ" },
+        { "text": "てきました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "話", "reading": "はなし" },
+        { "text": "を" },
+        { "text": "聞く", "reading": "き" },
+        { "text": "につれて、" },
+        { "text": "興味", "reading": "きょうみ" },
+        { "text": "が" },
+        { "text": "湧い", "reading": "わ" },
+        { "text": "てきた。" }
+      ]
+    },
+    {
+      "sentence": "この計画は実行に移すべきだと思います。",
+      "casual": "この計画は実行に移すべきだと思う。",
+      "polite": "この計画は実行に移すべきだと思います。",
+      "translation": "I think this plan should be put into action.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "計画", "reading": "けいかく" },
+        { "text": "は" },
+        { "text": "実行", "reading": "じっこう" },
+        { "text": "に" },
+        { "text": "移す", "reading": "うつ" },
+        { "text": "べきだと思います。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "計画", "reading": "けいかく" },
+        { "text": "は" },
+        { "text": "実行", "reading": "じっこう" },
+        { "text": "に" },
+        { "text": "移す", "reading": "うつ" },
+        { "text": "べきだと思う。" }
+      ]
+    },
+    {
+      "sentence": "彼の態度からして、本気ではないことが分かります。",
+      "casual": "彼の態度からして、本気ではないことが分かる。",
+      "polite": "彼の態度からして、本気ではないことが分かります。",
+      "translation": "From his attitude, I can tell he's not serious.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "態度", "reading": "たいど" },
+        { "text": "からして、" },
+        { "text": "本気", "reading": "ほんき" },
+        { "text": "ではないことが" },
+        { "text": "分かり", "reading": "わ" },
+        { "text": "ます。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "態度", "reading": "たいど" },
+        { "text": "からして、" },
+        { "text": "本気", "reading": "ほんき" },
+        { "text": "ではないことが" },
+        { "text": "分かる", "reading": "わ" }
+      ]
+    },
+    {
+      "sentence": "この問題を解決するには、時間がかかるでしょう。",
+      "casual": "この問題を解決するには、時間がかかるだろう。",
+      "polite": "この問題を解決するには、時間がかかるでしょう。",
+      "translation": "It will probably take time to solve this problem.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "を" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "するには、" },
+        { "text": "時間", "reading": "じかん" },
+        { "text": "が" },
+        { "text": "かかるでしょう。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "を" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "するには、" },
+        { "text": "時間", "reading": "じかん" },
+        { "text": "が" },
+        { "text": "かかるだろう。" }
+      ]
+    },
+    {
+      "sentence": "彼は約束を守るに違いありません。",
+      "casual": "彼は約束を守るに違いない。",
+      "polite": "彼は約束を守るに違いありません。",
+      "translation": "He must keep his promise.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "は" },
+        { "text": "約束", "reading": "やくそく" },
+        { "text": "を" },
+        { "text": "守る", "reading": "まも" },
+        { "text": "に違いありません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "は" },
+        { "text": "約束", "reading": "やくそく" },
+        { "text": "を" },
+        { "text": "守る", "reading": "まも" },
+        { "text": "に違いない。" }
+      ]
+    },
+    {
+      "sentence": "この本を読むたびに、新しい発見があります。",
+      "casual": "この本を読むたびに、新しい発見がある。",
+      "polite": "この本を読むたびに、新しい発見があります。",
+      "translation": "Every time I read this book, I make new discoveries.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "本", "reading": "ほん" },
+        { "text": "を" },
+        { "text": "読む", "reading": "よ" },
+        { "text": "たびに、" },
+        { "text": "新しい", "reading": "あたら" },
+        { "text": "発見", "reading": "はっけん" },
+        { "text": "があります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "本", "reading": "ほん" },
+        { "text": "を" },
+        { "text": "読む", "reading": "よ" },
+        { "text": "たびに、" },
+        { "text": "新しい", "reading": "あたら" },
+        { "text": "発見", "reading": "はっけん" },
+        { "text": "がある。" }
+      ]
+    },
+    {
+      "sentence": "彼の説明のおかげで、理解できました。",
+      "casual": "彼の説明のおかげで、理解できた。",
+      "polite": "彼の説明のおかげで、理解できました。",
+      "translation": "Thanks to his explanation, I was able to understand.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "説明", "reading": "せつめい" },
+        { "text": "のおかげで、" },
+        { "text": "理解", "reading": "りかい" },
+        { "text": "できました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "説明", "reading": "せつめい" },
+        { "text": "のおかげで、" },
+        { "text": "理解", "reading": "りかい" },
+        { "text": "できた。" }
+      ]
+    },
+    {
+      "sentence": "この件については、慎重に検討する必要があります。",
+      "casual": "この件については、慎重に検討する必要がある。",
+      "polite": "この件については、慎重に検討する必要があります。",
+      "translation": "We need to carefully consider this matter.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "件", "reading": "けん" },
+        { "text": "について、" },
+        { "text": "慎重", "reading": "しんちょう" },
+        { "text": "に" },
+        { "text": "検討", "reading": "けんとう" },
+        { "text": "する" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "があります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "件", "reading": "けん" },
+        { "text": "について、" },
+        { "text": "慎重", "reading": "しんちょう" },
+        { "text": "に" },
+        { "text": "検討", "reading": "けんとう" },
+        { "text": "する" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "がある。" }
+      ]
+    }
+  ],
+  "N1": [
+    {
+      "sentence": "彼の提案は一見すると魅力的だが、実現可能性を検討する必要がある。",
+      "casual": "彼の提案は一見すると魅力的だが、実現可能性を検討する必要がある。",
+      "polite": "彼の提案は一見すると魅力的ですが、実現可能性を検討する必要があります。",
+      "translation": "His proposal seems attractive at first glance, but we need to consider its feasibility.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "提案", "reading": "ていあん" },
+        { "text": "は" },
+        { "text": "一見", "reading": "いっけん" },
+        { "text": "すると" },
+        { "text": "魅力的", "reading": "みりょくてき" },
+        { "text": "ですが、" },
+        { "text": "実現", "reading": "じつげん" },
+        { "text": "可能性", "reading": "かのうせい" },
+        { "text": "を" },
+        { "text": "検討", "reading": "けんとう" },
+        { "text": "する" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "があります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "提案", "reading": "ていあん" },
+        { "text": "は" },
+        { "text": "一見", "reading": "いっけん" },
+        { "text": "すると" },
+        { "text": "魅力的", "reading": "みりょくてき" },
+        { "text": "だが、" },
+        { "text": "実現", "reading": "じつげん" },
+        { "text": "可能性", "reading": "かのうせい" },
+        { "text": "を" },
+        { "text": "検討", "reading": "けんとう" },
+        { "text": "する" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "がある。" }
+      ]
+    },
+    {
+      "sentence": "この問題を解決するには、従来の方法では限界があることが明らかになった。",
+      "casual": "この問題を解決するには、従来の方法では限界があることが明らかになった。",
+      "polite": "この問題を解決するには、従来の方法では限界があることが明らかになりました。",
+      "translation": "It became clear that there are limitations to solving this problem with conventional methods.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "を" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "するには、" },
+        { "text": "従来", "reading": "じゅうらい" },
+        { "text": "の" },
+        { "text": "方法", "reading": "ほうほう" },
+        { "text": "では" },
+        { "text": "限界", "reading": "げんかい" },
+        { "text": "があることが" },
+        { "text": "明らか", "reading": "あきら" },
+        { "text": "になりました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "を" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "するには、" },
+        { "text": "従来", "reading": "じゅうらい" },
+        { "text": "の" },
+        { "text": "方法", "reading": "ほうほう" },
+        { "text": "では" },
+        { "text": "限界", "reading": "げんかい" },
+        { "text": "があることが" },
+        { "text": "明らか", "reading": "あきら" },
+        { "text": "になった。" }
+      ]
+    },
+    {
+      "sentence": "彼の行動は、状況を考慮に入れれば、理解できないわけではない。",
+      "casual": "彼の行動は、状況を考慮に入れれば、理解できないわけではない。",
+      "polite": "彼の行動は、状況を考慮に入れれば、理解できないわけではありません。",
+      "translation": "His actions are not incomprehensible if we take the situation into account.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "行動", "reading": "こうどう" },
+        { "text": "は、" },
+        { "text": "状況", "reading": "じょうきょう" },
+        { "text": "を" },
+        { "text": "考慮", "reading": "こうりょ" },
+        { "text": "に入れれば、" },
+        { "text": "理解", "reading": "りかい" },
+        { "text": "できないわけではありません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "行動", "reading": "こうどう" },
+        { "text": "は、" },
+        { "text": "状況", "reading": "じょうきょう" },
+        { "text": "を" },
+        { "text": "考慮", "reading": "こうりょ" },
+        { "text": "に入れれば、" },
+        { "text": "理解", "reading": "りかい" },
+        { "text": "できないわけではない。" }
+      ]
+    },
+    {
+      "sentence": "このプロジェクトの成功は、チーム全体の協力なくしてはあり得ない。",
+      "casual": "このプロジェクトの成功は、チーム全体の協力なくしてはあり得ない。",
+      "polite": "このプロジェクトの成功は、チーム全体の協力なくしてはあり得ません。",
+      "translation": "The success of this project is impossible without the cooperation of the entire team.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "プロジェクト" },
+        { "text": "の" },
+        { "text": "成功", "reading": "せいこう" },
+        { "text": "は、" },
+        { "text": "チーム" },
+        { "text": "全体", "reading": "ぜんたい" },
+        { "text": "の" },
+        { "text": "協力", "reading": "きょうりょく" },
+        { "text": "なくしては" },
+        { "text": "あり得ません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "プロジェクト" },
+        { "text": "の" },
+        { "text": "成功", "reading": "せいこう" },
+        { "text": "は、" },
+        { "text": "チーム" },
+        { "text": "全体", "reading": "ぜんたい" },
+        { "text": "の" },
+        { "text": "協力", "reading": "きょうりょく" },
+        { "text": "なくしては" },
+        { "text": "あり得ない。" }
+      ]
+    },
+    {
+      "sentence": "彼の説明を聞くにつけ、問題の複雑さが浮き彫りになってきた。",
+      "casual": "彼の説明を聞くにつけ、問題の複雑さが浮き彫りになってきた。",
+      "polite": "彼の説明を聞くにつけ、問題の複雑さが浮き彫りになってきました。",
+      "translation": "As I listened to his explanation, the complexity of the problem came into sharp relief.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "説明", "reading": "せつめい" },
+        { "text": "を" },
+        { "text": "聞く", "reading": "き" },
+        { "text": "につけ、" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "の" },
+        { "text": "複雑", "reading": "ふくざつ" },
+        { "text": "さが" },
+        { "text": "浮き彫り", "reading": "うきぼ" },
+        { "text": "になってきました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "説明", "reading": "せつめい" },
+        { "text": "を" },
+        { "text": "聞く", "reading": "き" },
+        { "text": "につけ、" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "の" },
+        { "text": "複雑", "reading": "ふくざつ" },
+        { "text": "さが" },
+        { "text": "浮き彫り", "reading": "うきぼ" },
+        { "text": "になってきた。" }
+      ]
+    },
+    {
+      "sentence": "この決定は、慎重に検討した上で下されたものである。",
+      "casual": "この決定は、慎重に検討した上で下されたものだ。",
+      "polite": "この決定は、慎重に検討した上で下されたものであります。",
+      "translation": "This decision was made after careful consideration.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "決定", "reading": "けってい" },
+        { "text": "は、" },
+        { "text": "慎重", "reading": "しんちょう" },
+        { "text": "に" },
+        { "text": "検討", "reading": "けんとう" },
+        { "text": "した" },
+        { "text": "上で" },
+        { "text": "下され", "reading": "くださ" },
+        { "text": "たものであります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "決定", "reading": "けってい" },
+        { "text": "は、" },
+        { "text": "慎重", "reading": "しんちょう" },
+        { "text": "に" },
+        { "text": "検討", "reading": "けんとう" },
+        { "text": "した" },
+        { "text": "上で" },
+        { "text": "下され", "reading": "くださ" },
+        { "text": "たものだ。" }
+      ]
+    },
+    {
+      "sentence": "彼の意見は、一理あるとはいえ、全面的に賛成することはできない。",
+      "casual": "彼の意見は、一理あるとはいえ、全面的に賛成することはできない。",
+      "polite": "彼の意見は、一理あるとはいえ、全面的に賛成することはできません。",
+      "translation": "Although his opinion has some merit, I cannot fully agree with it.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "意見", "reading": "いけん" },
+        { "text": "は、" },
+        { "text": "一理", "reading": "いちり" },
+        { "text": "あるとはいえ、" },
+        { "text": "全面的", "reading": "ぜんめんてき" },
+        { "text": "に" },
+        { "text": "賛成", "reading": "さんせい" },
+        { "text": "することはできません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "意見", "reading": "いけん" },
+        { "text": "は、" },
+        { "text": "一理", "reading": "いちり" },
+        { "text": "あるとはいえ、" },
+        { "text": "全面的", "reading": "ぜんめんてき" },
+        { "text": "に" },
+        { "text": "賛成", "reading": "さんせい" },
+        { "text": "することはできない。" }
+      ]
+    },
+    {
+      "sentence": "この問題に対する解決策を見出すには、多角的な視点が必要不可欠である。",
+      "casual": "この問題に対する解決策を見出すには、多角的な視点が必要不可欠だ。",
+      "polite": "この問題に対する解決策を見出すには、多角的な視点が必要不可欠であります。",
+      "translation": "To find a solution to this problem, a multi-faceted perspective is essential.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "に対する" },
+        { "text": "解決策", "reading": "かいけつさく" },
+        { "text": "を" },
+        { "text": "見出し", "reading": "みだ" },
+        { "text": "すには、" },
+        { "text": "多角的", "reading": "たかくてき" },
+        { "text": "な" },
+        { "text": "視点", "reading": "してん" },
+        { "text": "が" },
+        { "text": "必要不可欠", "reading": "ひつようふかけつ" },
+        { "text": "であります。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "に対する" },
+        { "text": "解決策", "reading": "かいけつさく" },
+        { "text": "を" },
+        { "text": "見出し", "reading": "みだ" },
+        { "text": "すには、" },
+        { "text": "多角的", "reading": "たかくてき" },
+        { "text": "な" },
+        { "text": "視点", "reading": "してん" },
+        { "text": "が" },
+        { "text": "必要不可欠", "reading": "ひつようふかけつ" },
+        { "text": "だ。" }
+      ]
+    },
+    {
+      "sentence": "彼の提案は、現実的ではないばかりか、実行不可能であることが判明した。",
+      "casual": "彼の提案は、現実的ではないばかりか、実行不可能であることが判明した。",
+      "polite": "彼の提案は、現実的ではないばかりか、実行不可能であることが判明しました。",
+      "translation": "It became clear that his proposal is not only unrealistic but also impossible to implement.",
+      "furiganaPolite": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "提案", "reading": "ていあん" },
+        { "text": "は、" },
+        { "text": "現実的", "reading": "げんじつてき" },
+        { "text": "ではないばかりか、" },
+        { "text": "実行", "reading": "じっこう" },
+        { "text": "不可能", "reading": "ふかのう" },
+        { "text": "であることが" },
+        { "text": "判明", "reading": "はんめい" },
+        { "text": "しました。" }
+      ],
+      "furiganaCasual": [
+        { "text": "彼", "reading": "かれ" },
+        { "text": "の" },
+        { "text": "提案", "reading": "ていあん" },
+        { "text": "は、" },
+        { "text": "現実的", "reading": "げんじつてき" },
+        { "text": "ではないばかりか、" },
+        { "text": "実行", "reading": "じっこう" },
+        { "text": "不可能", "reading": "ふかのう" },
+        { "text": "であることが" },
+        { "text": "判明", "reading": "はんめい" },
+        { "text": "した。" }
+      ]
+    },
+    {
+      "sentence": "この問題を解決するには、根本的な見直しが必要であることは言うまでもない。",
+      "casual": "この問題を解決するには、根本的な見直しが必要であることは言うまでもない。",
+      "polite": "この問題を解決するには、根本的な見直しが必要であることは言うまでもありません。",
+      "translation": "It goes without saying that a fundamental review is necessary to solve this problem.",
+      "furiganaPolite": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "を" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "するには、" },
+        { "text": "根本的", "reading": "こんぽんてき" },
+        { "text": "な" },
+        { "text": "見直し", "reading": "みなお" },
+        { "text": "が" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "であることは" },
+        { "text": "言うまでもありません。" }
+      ],
+      "furiganaCasual": [
+        { "text": "この" },
+        { "text": "問題", "reading": "もんだい" },
+        { "text": "を" },
+        { "text": "解決", "reading": "かいけつ" },
+        { "text": "するには、" },
+        { "text": "根本的", "reading": "こんぽんてき" },
+        { "text": "な" },
+        { "text": "見直し", "reading": "みなお" },
+        { "text": "が" },
+        { "text": "必要", "reading": "ひつよう" },
+        { "text": "であることは" },
+        { "text": "言うまでもない。" }
+      ]
+    }
+  ]
+}

@@ -49,9 +49,11 @@ export function SettingsSheet() {
     startClose();
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     saveSettings();
+    // Start loading new cards immediately, don't wait
     void refillNewSet();
+    // Close sheet immediately so user sees cards loading/appearing
     startClose();
   };
 
