@@ -65,10 +65,13 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  // Track active drag to avoid resetting during interaction
+  const isDraggingRef = useRef(false);
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       startX.current = e.touches[0].clientX;
+      isDraggingRef.current = true;
     },
     []
   );
@@ -77,13 +80,17 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
     (e: React.TouchEvent) => {
       const x = e.touches[0].clientX;
       const delta = x - startX.current;
-      if (Math.abs(delta) > 10) e.preventDefault();
+      if (Math.abs(delta) > 10) {
+        e.preventDefault();
+        isDraggingRef.current = true;
+      }
       setDragX(delta);
     },
     []
   );
 
   const handleTouchEnd = useCallback(() => {
+    isDraggingRef.current = false;
     if (dragX < -SWIPE_THRESHOLD) {
       onSkip();
       setDragX(0);
@@ -98,6 +105,7 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       startX.current = e.clientX;
+      isDraggingRef.current = true;
     },
     []
   );
@@ -105,12 +113,14 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (e.buttons !== 1) return;
+      isDraggingRef.current = true;
       setDragX(e.clientX - startX.current);
     },
     []
   );
 
   const handleMouseUp = useCallback(() => {
+    isDraggingRef.current = false;
     handleTouchEnd();
   }, [handleTouchEnd]);
 
@@ -195,6 +205,14 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
   const furiganaSegments =
     card?.displayForm === "casual" ? card.furiganaCasual : card?.furiganaPolite;
 
+  // Reset drag position when card changes to prevent jumps
+  useEffect(() => {
+    // Only reset drag position if we're not actively dragging
+    if (!isDraggingRef.current) {
+      setDragX(0);
+    }
+  }, [card?.id]);
+
   useEffect(() => {
     setPracticeStatus("idle");
     setPracticeScore(null);
@@ -238,7 +256,7 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
     >
       {nextCard && <NextCardPreview card={nextCard} />}
       <div
-        className="relative z-10 flex min-h-0 flex-1 transition-transform duration-100"
+        className="relative z-10 flex min-h-0 flex-1 transition-transform duration-200 ease-out"
         style={{ transform: `translateX(${dragX}px)` }}
       >
         <div
@@ -286,7 +304,7 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
             practiceStatus === "uploading";
           return (
             <div
-              className={`flex-1 flex min-h-0 flex-col mb-8 ${
+              className={`flex-1 flex min-h-0 flex-col mb-8 transition-all duration-300 ${
                 hasFeedback ? "justify-start" : "justify-center"
               }`}
             >
@@ -315,7 +333,7 @@ export function CardStack({ cards, onSkip, onSave, onSaveToLibrary, isCurrentCar
                 )}
               </div>
               {hasFeedback && (
-                <div className="mt-6 flex flex-col rounded-xl bg-[#f0f0f0] p-4">
+                <div className="mt-6 flex flex-col rounded-xl bg-[#f0f0f0] p-4 animate-in fade-in slide-in-from-top-2 duration-300">
                   {practiceStatus === "done" && practiceScore != null && (
                     <>
                       <p className="text-sm font-semibold text-[#1a1a1a] mb-1">

@@ -21,6 +21,8 @@ const geistMono = Geist_Mono({
 
 const APP_NAME = "Japanese Shadowing";
 const APP_DESCRIPTION = "Shadow Japanese sentences with AI-generated cards and practice feedback.";
+// Set your production URL here or via NEXT_PUBLIC_APP_URL environment variable
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://your-domain.com";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -28,6 +30,37 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
   appleWebApp: { capable: true, statusBarStyle: "default", title: APP_NAME },
   formatDetection: { telephone: false },
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", type: "image/png" },
+    ],
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: APP_URL,
+    siteName: APP_NAME,
+    title: APP_NAME,
+    description: APP_DESCRIPTION,
+    images: [
+      {
+        url: "/og-image.png", // 1200x630px recommended
+        width: 1200,
+        height: 630,
+        alt: APP_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: APP_NAME,
+    description: APP_DESCRIPTION,
+    images: ["/og-image.png"], // 1200x630px recommended
+  },
 };
 
 export const viewport: Viewport = {

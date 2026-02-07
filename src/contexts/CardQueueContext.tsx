@@ -259,7 +259,9 @@ async function buildCard(
 type CardQueueValue = {
   queue: QueueCard[];
   loading: boolean;
+  loadingProgress: number; // 0-100
   error: string | null;
+  swipeCount: number; // Track number of swipes (skip/save)
   skip: () => void;
   save: () => Promise<void>;
   saveToLibrary: () => Promise<void>;
@@ -267,6 +269,7 @@ type CardQueueValue = {
   toggleForm: () => void;
   refillNewSet: () => Promise<void>;
   loadCardFromLibrary: (cardId: string) => Promise<void>;
+  startNewRun: () => Promise<void>; // Reset swipe count and load new cards
 };
 
 const CardQueueContext = createContext<CardQueueValue | null>(null);
@@ -275,8 +278,10 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
   const { settings } = useSettings();
   const [queue, setQueue] = useState<QueueCard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [savedCardIds, setSavedCardIds] = useState<Set<string>>(() => new Set());
+  const [swipeCount, setSwipeCount] = useState(0);
   const refillingRef = useRef(false);
   const hasLoadedOnceRef = useRef(false);
 
@@ -334,6 +339,7 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
     const level = settings.jlptLevel;
     const speed = settings.speed;
     setError(null);
+    setSwipeCount(0); // Reset swipe count when refilling
     // Don't show loading screen if we already have cards - just load in background
     const hasExistingCards = queue.length > 0;
     if (!hasExistingCards) {
@@ -374,26 +380,56 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
     const speed = settings.speed;
     let cancelled = false;
     setLoading(true);
+    setLoadingProgress(0);
     setError(null);
+    setSwipeCount(0); // Reset swipe count on initial load
     const timeout = window.setTimeout(() => {
       if (cancelled) return;
       setError("Taking too long. Check OPENAI_API_KEY in .env.local and your connection.");
       setLoading(false);
+      setLoadingProgress(0);
     }, 20000);
 
     (async () => {
       try {
+        // Step 1: Fetch sentences (30% of progress)
+        setLoadingProgress(10);
         const sentences = await fetchSentences(QUEUE_TARGET_SIZE, level);
         if (cancelled) return;
         if (sentences.length === 0) {
           setLoading(false);
+          setLoadingProgress(0);
           return;
         }
-        const cards = await Promise.all(
-          sentences.map((s) => buildCard(s, speed, level).catch(() => null))
+        setLoadingProgress(30);
+
+        // Step 2: Build cards in parallel for faster loading
+        const totalCards = sentences.length;
+        let completedCount = 0;
+        const cardPromises = sentences.map((s, i) => 
+          buildCard(s, speed, level)
+            .then((card) => {
+              if (cancelled) return null;
+              completedCount++;
+              // Update progress as each card completes
+              const progress = 30 + Math.floor((70 * completedCount) / totalCards);
+              setLoadingProgress(progress);
+              return card;
+            })
+            .catch(() => {
+              if (cancelled) return null;
+              completedCount++;
+              const progress = 30 + Math.floor((70 * completedCount) / totalCards);
+              setLoadingProgress(progress);
+              return null;
+            })
         );
+        
+        const cards = await Promise.all(cardPromises);
+
         if (cancelled) return;
         window.clearTimeout(timeout);
+        setLoadingProgress(100);
         const validCards = cards.filter((c): c is QueueCard => c !== null);
         if (!cancelled && validCards.length > 0) {
           setQueue(validCards);
@@ -404,8 +440,15 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
         window.clearTimeout(timeout);
         if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load cards");
         if (!cancelled) setLoading(false);
+        if (!cancelled) setLoadingProgress(0);
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          // Keep progress at 100 briefly before resetting
+          setTimeout(() => {
+            if (!cancelled) setLoadingProgress(0);
+          }, 300);
+        }
       }
     })();
 
@@ -492,6 +535,7 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
       if (top?.politeAudioUrl) URL.revokeObjectURL(top.politeAudioUrl);
       return next;
     });
+    setSwipeCount((prev) => prev + 1);
   }, []);
 
   const save = useCallback(async () => {
@@ -516,6 +560,7 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
       if (top.politeAudioUrl) URL.revokeObjectURL(top.politeAudioUrl);
       return next;
     });
+    setSwipeCount((prev) => prev + 1);
   }, [queue, settings.jlptLevel]);
 
   /** Save current card to library without advancing to the next card. */
@@ -561,19 +606,25 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
     if (!savedCard) {
       setError("Card not found");
       setLoading(false);
+      setLoadingProgress(0);
       return;
     }
 
     setError(null);
     setLoading(true);
+    setLoadingProgress(0);
     const speed = settings.speed;
 
     try {
-      // Convert SavedCard to QueueCard format
-      const [casualBlob, politeBlob] = await Promise.all([
-        fetchTTS(savedCard.casual, speed).catch(() => null),
-        fetchTTS(savedCard.polite, speed).catch(() => null),
-      ]);
+      // Convert SavedCard to QueueCard format with progress tracking
+      setLoadingProgress(20);
+      const casualPromise = fetchTTS(savedCard.casual, speed).catch(() => null);
+      setLoadingProgress(40);
+      const politePromise = fetchTTS(savedCard.polite, speed).catch(() => null);
+      setLoadingProgress(60);
+      
+      const [casualBlob, politeBlob] = await Promise.all([casualPromise, politePromise]);
+      setLoadingProgress(90);
 
       const queueCard: QueueCard = {
         id: savedCard.id,
@@ -590,19 +641,72 @@ export function CardQueueProvider({ children }: { children: ReactNode }) {
         level: savedCard.level,
       };
 
+      setLoadingProgress(100);
       setQueue([queueCard]);
+      // Reset swipe count when loading from library
+      setSwipeCount(0);
       // Prepare next card in background
       void loadCardsToMaintainQueue();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load card");
+      setLoadingProgress(0);
     } finally {
       setLoading(false);
+      setTimeout(() => setLoadingProgress(0), 300);
     }
   }, [settings.speed, loadCardsToMaintainQueue]);
 
+  /** Start a new run: reset swipe count and load new cards. */
+  const startNewRun = useCallback(async () => {
+    setError(null);
+    const level = settings.jlptLevel;
+    const speed = settings.speed;
+    
+    // Load new cards with progress tracking
+    setLoadingProgress(0);
+    try {
+      // Step 1: Fetch sentences
+      setLoadingProgress(10);
+      const sentences = await fetchSentences(QUEUE_TARGET_SIZE, level);
+      if (sentences.length === 0) {
+        setLoadingProgress(0);
+        return;
+      }
+      setLoadingProgress(30);
+
+      // Step 2: Build cards in parallel for faster loading
+      const totalCards = sentences.length;
+      const cardPromises = sentences.map((s, i) => 
+        buildCard(s, speed, level)
+          .then((card) => {
+            // Update progress as each card completes
+            const progress = 30 + Math.floor((70 * (i + 1)) / totalCards);
+            setLoadingProgress(progress);
+            return card;
+          })
+          .catch(() => null)
+      );
+      
+      const cards = await Promise.all(cardPromises);
+
+      setLoadingProgress(100);
+      const validCards = cards.filter((c): c is QueueCard => c !== null);
+      if (validCards.length > 0) {
+        // Reset swipe count only after cards are loaded
+        setSwipeCount(0);
+        setQueue(validCards);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to load cards");
+      setLoadingProgress(0);
+    } finally {
+      setTimeout(() => setLoadingProgress(0), 300);
+    }
+  }, [settings.jlptLevel, settings.speed]);
+
   return (
     <CardQueueContext.Provider
-      value={{ queue, loading, error, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet, loadCardFromLibrary }}
+      value={{ queue, loading, loadingProgress, error, swipeCount, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet, loadCardFromLibrary, startNewRun }}
     >
       {children}
     </CardQueueContext.Provider>

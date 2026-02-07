@@ -5,17 +5,23 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useCardQueue } from "@/hooks/useCardQueue";
 import { CardStack } from "@/components/CardStack";
 import { LoadingScreen } from "@/components/LoadingScreen";
+import { PauseCard } from "@/components/PauseCard";
 
 function StackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const triggerRecord = searchParams.get("record") === "1";
   const cardIdParam = searchParams.get("cardId");
-  const { queue, loading, error, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet, loadCardFromLibrary } = useCardQueue();
+  const { queue, loading, loadingProgress, error, swipeCount, skip, save, saveToLibrary, isCurrentCardSaved, toggleForm, refillNewSet, loadCardFromLibrary, startNewRun } = useCardQueue();
   const currentCard = queue[0] ?? null;
   const stackCards = queue.slice(0, 3);
   const [toastVisible, setToastVisible] = useState(false);
   const [refilling, setRefilling] = useState(false);
+  const [isStartingNewRun, setIsStartingNewRun] = useState(false);
+  
+  // Show pause card when swipeCount >= 5 and there are still cards
+  // Also keep it visible if we're loading a new run (loadingProgress > 0 and we were at 5+ swipes)
+  const showPauseCard = swipeCount >= 5 && (currentCard !== null || (loadingProgress > 0 && isStartingNewRun));
 
   useEffect(() => {
     if (triggerRecord) {
@@ -37,8 +43,15 @@ function StackContent() {
     return () => clearTimeout(t);
   }, [toastVisible]);
 
+  // Reset isStartingNewRun when swipeCount resets (new run completed)
+  useEffect(() => {
+    if (swipeCount === 0) {
+      setIsStartingNewRun(false);
+    }
+  }, [swipeCount]);
+
   if (loading && queue.length === 0) {
-    return <LoadingScreen />;
+    return <LoadingScreen progress={loadingProgress} />;
   }
 
   if (error && queue.length === 0) {
@@ -46,6 +59,32 @@ function StackContent() {
       <div className="bg-loading-gradient flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden p-6">
         <p className="mb-2 font-medium text-white drop-shadow-sm">{error}</p>
         <p className="text-sm text-white/90">Check your connection and API key (backend).</p>
+      </div>
+    );
+  }
+
+  // Show pause card if swipeCount >= 5
+  if (showPauseCard) {
+    const handleStartNewRun = async () => {
+      setIsStartingNewRun(true);
+      try {
+        await startNewRun();
+      } finally {
+        // Reset after a short delay to allow cards to render
+        setTimeout(() => setIsStartingNewRun(false), 100);
+      }
+    };
+    
+    return (
+      <div className="bg-loading-gradient relative flex min-h-0 flex-1 flex-col overflow-hidden">
+        <div
+          className="flex min-h-0 flex-1 flex-col pt-4 pb-4"
+          style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 3.5rem)" }}
+        >
+          <div className="mx-5 flex min-h-0 flex-1 flex-col">
+            <PauseCard onStartNewRun={handleStartNewRun} loadingProgress={loadingProgress} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -125,7 +164,7 @@ function StackContent() {
 
 export default function StackPage() {
   return (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense fallback={<LoadingScreen progress={0} />}>
       <StackContent />
     </Suspense>
   );

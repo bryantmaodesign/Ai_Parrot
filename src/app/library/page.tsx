@@ -29,7 +29,6 @@ function LibraryContent() {
 
   // --- Saved cards state ---
   const [cards, setCards] = useState<SavedCard[]>([]);
-  const [playingId, setPlayingId] = useState<string | null>(null);
 
   const loadCards = useCallback(async () => {
     const list = await db.savedCards.orderBy("savedAt").reverse().toArray();
@@ -40,10 +39,15 @@ function LibraryContent() {
     void loadCards();
   }, [loadCards]);
 
-
   const handleCardClick = useCallback((cardId: string) => {
     router.push(`/?cardId=${encodeURIComponent(cardId)}`);
   }, [router]);
+
+  const handleDeleteCard = useCallback(async (cardId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking delete
+    await db.savedCards.delete(cardId);
+    void loadCards();
+  }, [loadCards]);
 
   // --- Vocabulary state ---
   const [items, setItems] = useState<VocabularyItem[]>([]);
@@ -209,10 +213,10 @@ function LibraryContent() {
                 <li
                   key={card.id}
                   onClick={() => handleCardClick(card.id)}
-                  className="relative rounded-2xl bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] cursor-pointer hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] transition-shadow"
+                  className="relative rounded-2xl bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] cursor-pointer hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] transition-shadow flex flex-col"
                 >
                   {card.level && (
-                    <span className="inline-block mb-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-[#e8f4fd] text-[#1da1f2]">
+                    <span className="inline-block mb-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-[#e8f4fd] text-[#1da1f2] w-fit">
                       {card.level}
                     </span>
                   )}
@@ -233,10 +237,32 @@ function LibraryContent() {
                     )}
                   </p>
                   {card.reading && (
-                    <p className="text-xs text-[#9e9e9e] line-clamp-1" lang="ja">
+                    <p className="text-xs text-[#9e9e9e] line-clamp-1 mb-2" lang="ja">
                       {card.reading}
                     </p>
                   )}
+                  <button
+                    type="button"
+                    onClick={(e) => handleDeleteCard(card.id, e)}
+                    className="mt-auto p-1.5 rounded-full text-[#fe3c72] hover:bg-[#fff0f4] focus:outline-none focus:ring-2 focus:ring-[#fe3c72] focus:ring-offset-1 transition-colors w-fit"
+                    aria-label="Delete card"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M3 6h18" />
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                    </svg>
+                  </button>
                 </li>
               ))}
             </ul>
