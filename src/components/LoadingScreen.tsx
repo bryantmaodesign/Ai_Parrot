@@ -14,7 +14,7 @@ export function LoadingScreen({ progress = 0 }: LoadingScreenProps) {
       {/* Centered branding */}
       <div className="flex flex-1 flex-col items-center justify-center">
         <span className="relative z-10 text-4xl font-semibold tracking-tight text-white drop-shadow-sm">
-          parrot
+          ParrotAi
         </span>
       </div>
       {/* Bottom row: aligned with top of main bottom nav bar */}

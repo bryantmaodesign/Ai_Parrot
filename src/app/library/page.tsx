@@ -29,6 +29,10 @@ function LibraryContent() {
 
   // --- Saved cards state ---
   const [cards, setCards] = useState<SavedCard[]>([]);
+  const [playingCardId, setPlayingCardId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [deletedCard, setDeletedCard] = useState<SavedCard | null>(null);
+  const [showUndoToast, setShowUndoToast] = useState(false);
 
   const loadCards = useCallback(async () => {
     const list = await db.savedCards.orderBy("savedAt").reverse().toArray();
@@ -45,9 +49,92 @@ function LibraryContent() {
 
   const handleDeleteCard = useCallback(async (cardId: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click when clicking delete
+    const cardToDelete = cards.find(c => c.id === cardId);
+    if (!cardToDelete) return;
+    
+    // Store the deleted card for undo
+    setDeletedCard(cardToDelete);
+    setShowUndoToast(true);
+    
+    // Delete from database
     await db.savedCards.delete(cardId);
     void loadCards();
-  }, [loadCards]);
+    
+    // Auto-hide toast after 5 seconds
+    setTimeout(() => {
+      setShowUndoToast(false);
+      setDeletedCard(null);
+    }, 5000);
+  }, [cards, loadCards]);
+
+  const handleUndoDelete = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!deletedCard) return;
+    
+    // Restore the card
+    await db.savedCards.add(deletedCard);
+    setShowUndoToast(false);
+    setDeletedCard(null);
+    void loadCards();
+  }, [deletedCard, loadCards]);
+
+  const handlePlayCard = useCallback(async (card: SavedCard, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    
+    // Stop any currently playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    if (playingCardId) {
+      setPlayingCardId(null);
+    }
+
+    // If clicking the same card that's playing, stop it
+    if (playingCardId === card.id) {
+      setPlayingCardId(null);
+      return;
+    }
+
+    try {
+      setPlayingCardId(card.id);
+      // Fetch TTS audio
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: card.polite, speed: settings.speed }),
+      });
+      if (!res.ok) throw new Error("TTS failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.addEventListener("ended", () => {
+        setPlayingCardId(null);
+        URL.revokeObjectURL(url);
+        audioRef.current = null;
+      });
+      await audio.play();
+    } catch (error) {
+      console.error("Play error:", error);
+      setPlayingCardId(null);
+    }
+  }, [playingCardId, settings.speed]);
+
+  const handlePracticeCard = useCallback((cardId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    router.push(`/practice?cardId=${encodeURIComponent(cardId)}`);
+  }, [router]);
+
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   // --- Vocabulary state ---
   const [items, setItems] = useState<VocabularyItem[]>([]);
@@ -215,54 +302,92 @@ function LibraryContent() {
                   onClick={() => handleCardClick(card.id)}
                   className="relative rounded-2xl bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] cursor-pointer hover:shadow-[0_6px_24px_rgba(0,0,0,0.12)] transition-shadow flex flex-col"
                 >
-                  {card.level && (
-                    <span className="inline-block mb-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-[#e8f4fd] text-[#1da1f2] w-fit">
-                      {card.level}
-                    </span>
-                  )}
+                  <div className="flex items-center justify-between mb-2">
+                    {card.level && (
+                      <span className="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-[#e8f4fd] text-[#1da1f2] w-fit">
+                        {card.level}
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={(e) => handleDeleteCard(card.id, e)}
+                      className="p-1 rounded-full bg-[#f5f5f5] text-[#9e9e9e] hover:bg-[#e0e0e0] hover:text-[#424242] focus:outline-none focus:ring-2 focus:ring-[#9e9e9e] focus:ring-offset-1 transition-colors z-10"
+                      aria-label="Delete card"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M18 6L6 18" />
+                        <path d="M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
                   <p className="text-base font-semibold text-[#1a1a1a] mb-1 [ruby-align:center] line-clamp-3" lang="ja">
                     {card.furiganaPolite && card.furiganaPolite.length > 0 ? (
-                      card.furiganaPolite.map((seg, i) =>
-                        seg.reading ? (
+                      card.furiganaPolite.map((seg, i) => {
+                        const displayText = seg.text || seg.reading || "";
+                        return seg.reading && seg.text ? (
                           <ruby key={i}>
-                            {seg.text}
+                            {displayText}
                             <rt className="text-xs text-[#9e9e9e]">{seg.reading}</rt>
                           </ruby>
                         ) : (
-                          <span key={i}>{seg.text}</span>
-                        )
-                      )
+                          <span key={i}>{displayText}</span>
+                        );
+                      })
                     ) : (
                       card.polite
                     )}
                   </p>
                   {card.reading && (
-                    <p className="text-xs text-[#9e9e9e] line-clamp-1 mb-2" lang="ja">
+                    <p className="text-xs text-[#9e9e9e] line-clamp-1 mb-4" lang="ja">
                       {card.reading}
                     </p>
                   )}
-                  <button
-                    type="button"
-                    onClick={(e) => handleDeleteCard(card.id, e)}
-                    className="mt-auto p-1.5 rounded-full text-[#fe3c72] hover:bg-[#fff0f4] focus:outline-none focus:ring-2 focus:ring-[#fe3c72] focus:ring-offset-1 transition-colors w-fit"
-                    aria-label="Delete card"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                  <div className="mt-auto flex items-center gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={(e) => handlePlayCard(card, e)}
+                      className="flex-1 flex items-center justify-center gap-1 min-h-[2rem] px-2.5 py-1 rounded-full border-2 border-[#424242] bg-transparent text-[#424242] text-xs font-semibold hover:bg-[#424242] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#424242] focus:ring-offset-1 transition-colors"
+                      aria-label="Play audio"
                     >
-                      <path d="M3 6h18" />
-                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                    </svg>
-                  </button>
+                      {playingCardId === card.id ? (
+                        <>
+                          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                            <rect x="6" y="6" width="12" height="12" rx="2" />
+                          </svg>
+                          <span>Stop</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg className="h-3.5 w-3.5 ml-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => handlePracticeCard(card.id, e)}
+                      className="flex-1 flex items-center justify-center gap-1 min-h-[2rem] px-2.5 py-1 rounded-full bg-[#424242] text-white text-xs font-semibold hover:bg-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-[#424242] focus:ring-offset-1 transition-colors"
+                      aria-label="Practice"
+                    >
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                      </svg>
+                      <span>Practice</span>
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -442,6 +567,24 @@ function LibraryContent() {
         </>
       )}
       </div>
+      {showUndoToast && (
+        <div className="fixed bottom-24 left-0 right-0 z-[60] flex justify-center px-4 pointer-events-none">
+          <div
+            className="toast-slide-up flex items-center gap-3 rounded-full bg-[#1a1a1a] px-4 py-2.5 text-sm font-medium text-white shadow-lg pointer-events-auto"
+            role="status"
+            aria-live="polite"
+          >
+            <span>Card deleted</span>
+            <button
+              type="button"
+              onClick={handleUndoDelete}
+              className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+            >
+              Undo
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
