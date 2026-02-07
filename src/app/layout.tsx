@@ -31,13 +31,8 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, statusBarStyle: "default", title: APP_NAME },
   formatDetection: { telephone: false },
   icons: {
-    icon: [
-      { url: "/icon.png", type: "image/png" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
-    apple: [
-      { url: "/apple-icon.png", type: "image/png" },
-    ],
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
   },
   openGraph: {
     type: "website",
